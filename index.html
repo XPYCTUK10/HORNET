@@ -246,17 +246,18 @@
     <button id="pc-btn" type="button">🖥 My PC</button>
   </div>
 
-  <div id="donate-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="close-donate">×</span>
-      <h3>SUPPORT HORNET</h3>
+ <div id="donate-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="close-donate">×</span>
+    <h3 id="donate-title">ПОДДЕРЖАТЬ HORNET</h3>
 
-      <p class="donate-note">Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.</p>
+    <p class="donate-note" id="donate-note">
+      Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.
+    </p>
 
-      <a class="donate-link" href="https://www.donationalerts.com/r/hornet1010" target="_blank">💸 DonationAlerts</a>
-    
-    </div>
+    <a id="donate-link" class="donate-link" href="https://www.donationalerts.com/r/hornet1010" target="_blank">💸 DonationAlerts</a>
   </div>
+</div>
 
   <div id="pc-modal" class="modal">
     <div class="modal-content">
@@ -283,27 +284,33 @@
 
   <script>
     const translations = {
-      ru: {
-        title: "HORNET",
-        subtitle: "17 000+ часов в Rust",
-        subdesc: "",
-        youtube: "YouTube",
-        telegram: "Telegram",
-        discord: "Discord",
-        donate: "Donate",
-        pc: "My PC"
-      },
-      en: {
-        title: "HORNET",
-        subtitle: "17 000+ hours in Rust",
-        subdesc: "",
-        youtube: "YouTube",
-        telegram: "Telegram",
-        discord: "Discord",
-        donate: "Donate",
-        pc: "My PC"
-      }
-    };
+  ru: {
+    title: "HORNET",
+    subtitle: "17 000+ часов в Rust",
+    subdesc: "",
+    youtube: "YouTube",
+    telegram: "Telegram",
+    discord: "Discord",
+    donate: "Поддержать",
+    pc: "Мой ПК",
+    donateTitle: "ПОДДЕРЖАТЬ HORNET",
+    donateNote: "Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.",
+    donateLink: "💸 DonationAlerts"
+  },
+  en: {
+    title: "HORNET",
+    subtitle: "17 000+ hours in Rust",
+    subdesc: "",
+    youtube: "YouTube",
+    telegram: "Telegram",
+    discord: "Discord",
+    donate: "Support",
+    pc: "My PC",
+    donateTitle: "SUPPORT HORNET",
+    donateNote: "Thank you for supporting the channel. Every donation helps create more Rust content.",
+    donateLink: "💸 DonationAlerts"
+  }
+};
 
     const langSelect = document.getElementById('lang-select');
 
@@ -325,6 +332,9 @@
       document.getElementById('ds').innerHTML = `🧠 ${translations[lang].discord}`;
       document.getElementById('donate-btn').innerHTML = `💸 ${translations[lang].donate}`;
       document.getElementById('pc-btn').innerHTML = `🖥 ${translations[lang].pc}`;
+      document.getElementById('donate-title').innerText = translations[lang].donateTitle;
+      document.getElementById('donate-note').innerText = translations[lang].donateNote;
+      document.getElementById('donate-link').innerHTML = translations[lang].donateLink;
     }
 
     function openPC() {
