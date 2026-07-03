@@ -43,6 +43,7 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
       z-index: 10;
+      cursor: pointer;
     }
 
     .logo:hover {
@@ -232,9 +233,10 @@
   </div>
 
   <img src="HORNET banner.jpg" alt="HORNET Banner" class="banner" />
-  <a href="https://www.youtube.com/channel/UC2Fa5Q1RkChe0jSTt6e9j-Q?sub_confirmation=1" target="_blank">
+
+  <a id="logo-link" href="https://www.youtube.com/channel/UC2Fa5Q1RkChe0jSTt6e9j-Q?sub_confirmation=1" target="_blank">
     <img src="HORNET logo.png" alt="HORNET Logo" class="logo" />
-</a>
+  </a>
 
   <h1 id="title">HORNET</h1>
   <h2 id="subtitle">17 000+ часов в Rust</h2>
@@ -248,18 +250,18 @@
     <button id="pc-btn" type="button">🖥 My PC</button>
   </div>
 
- <div id="donate-modal" class="modal">
-  <div class="modal-content">
-    <span class="close" id="close-donate">×</span>
-    <h3 id="donate-title">ПОДДЕРЖАТЬ HORNET</h3>
+  <div id="donate-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-donate">×</span>
+      <h3 id="donate-title">ПОДДЕРЖАТЬ HORNET</h3>
 
-    <p class="donate-note" id="donate-note">
-      Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.
-    </p>
+      <p class="donate-note" id="donate-note">
+        Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.
+      </p>
 
-    <a id="donate-link" class="donate-link" href="https://www.donationalerts.com/r/hornet1010" target="_blank">💸 DonationAlerts</a>
+      <a id="donate-link" class="donate-link" href="https://www.donationalerts.com/r/hornet1010" target="_blank">💸 DonationAlerts</a>
+    </div>
   </div>
-</div>
 
   <div id="pc-modal" class="modal">
     <div class="modal-content">
@@ -284,36 +286,36 @@
   <audio id="click-sound" src="typing.mp3" preload="auto"></audio>
   <audio id="hover-sound" src="hover.wav" preload="auto"></audio>
   <audio id="hornet-sound" src="Hornet sound.mp3" preload="auto"></audio>
-  
+
   <script>
     const translations = {
-  ru: {
-    title: "HORNET",
-    subtitle: "17 000+ часов в Rust",
-    subdesc: "",
-    youtube: "YouTube",
-    telegram: "Telegram",
-    discord: "Discord",
-    donate: "Поддержать",
-    pc: "Мой ПК",
-    donateTitle: "ПОДДЕРЖАТЬ HORNET",
-    donateNote: "Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.",
-    donateLink: "💸 DonationAlerts"
-  },
-  en: {
-    title: "HORNET",
-    subtitle: "17 000+ hours in Rust",
-    subdesc: "",
-    youtube: "YouTube",
-    telegram: "Telegram",
-    discord: "Discord",
-    donate: "Support",
-    pc: "My PC",
-    donateTitle: "SUPPORT HORNET",
-    donateNote: "Thank you for supporting the channel. Every donation helps create more Rust content.",
-    donateLink: "💸 DonationAlerts"
-  }
-};
+      ru: {
+        title: "HORNET",
+        subtitle: "17 000+ часов в Rust",
+        subdesc: "",
+        youtube: "YouTube",
+        telegram: "Telegram",
+        discord: "Discord",
+        donate: "Поддержать",
+        pc: "Мой ПК",
+        donateTitle: "ПОДДЕРЖАТЬ HORNET",
+        donateNote: "Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.",
+        donateLink: "💸 DonationAlerts"
+      },
+      en: {
+        title: "HORNET",
+        subtitle: "17 000+ hours in Rust",
+        subdesc: "",
+        youtube: "YouTube",
+        telegram: "Telegram",
+        discord: "Discord",
+        donate: "Support",
+        pc: "My PC",
+        donateTitle: "SUPPORT HORNET",
+        donateNote: "Thank you for supporting the channel. Every donation helps create more Rust content.",
+        donateLink: "💸 DonationAlerts"
+      }
+    };
 
     const langSelect = document.getElementById('lang-select');
 
@@ -324,6 +326,8 @@
     const donateModal = document.getElementById('donate-modal');
     const donateBtn = document.getElementById('donate-btn');
     const closeDonate = document.getElementById('close-donate');
+
+    const logoLink = document.getElementById('logo-link');
 
     function applyLanguage(lang) {
       localStorage.setItem('lang', lang);
@@ -356,6 +360,28 @@
       donateModal.style.display = 'none';
     }
 
+    function playClickSound() {
+      const sound = document.getElementById('click-sound');
+      if (!sound) return;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+    function playHoverSound() {
+      const sound = document.getElementById('hover-sound');
+      if (!sound) return;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+    function playHornetSound() {
+      const sound = document.getElementById('hornet-sound');
+      if (!sound) return;
+      sound.currentTime = 0;
+      sound.volume = 0.45;
+      sound.play().catch(() => {});
+    }
+
     pcBtn.addEventListener('click', openPC);
     closePc.addEventListener('click', closePC);
 
@@ -381,44 +407,29 @@
       applyLanguage(langSelect.value);
     });
 
+    document.querySelectorAll('a:not(#logo-link), button, select, .close').forEach(element => {
+      element.addEventListener('mouseenter', playHoverSound);
+      element.addEventListener('click', playClickSound);
+    });
+
+    logoLink.addEventListener('mouseenter', playHoverSound);
+
+    logoLink.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      playHornetSound();
+
+      setTimeout(() => {
+        window.open(
+          'https://www.youtube.com/channel/UC2Fa5Q1RkChe0jSTt6e9j-Q?sub_confirmation=1',
+          '_blank'
+        );
+      }, 250);
+    });
+
     const savedLang = localStorage.getItem('lang') || 'ru';
     langSelect.value = savedLang;
     applyLanguage(savedLang);
-
-    function playClickSound() {
-      const sound = document.getElementById('click-sound');
-      if (!sound) return;
-      sound.currentTime = 0;
-      sound.play().catch(() => {});
-    }
-
-   function playHoverSound() {
-  const sound = document.getElementById('hover-sound');
-  if (!sound) return;
-  sound.currentTime = 0;
-  sound.play().catch(() => {});
-}
-    function playHornetSound() {
-    const sound = document.getElementById('hornet-sound');
-    if (!sound) return;
-
-    sound.currentTime = 0;
-    sound.volume = 0.45; // потом можно подобрать 0.3–0.6
-    sound.play().catch(() => {});
-}
-
-    document.querySelectorAll('a:not(#logo-link), button, select, .close').forEach(element => {
-    element.addEventListener('mouseenter', playHoverSound);
-    element.addEventListener('click', playClickSound);
-});
-
-const logoLink = document.getElementById('logo-link');
-
-logoLink.addEventListener('mouseenter', playHoverSound);
-
-logoLink.addEventListener('click', () => {
-    playHornetSound();
-});
 
     window.addEventListener("load", () => {
       setTimeout(() => {
