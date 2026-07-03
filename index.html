@@ -71,7 +71,8 @@
     }
 
     .buttons a,
-    .buttons button {
+    .buttons button,
+    .donate-link {
       display: block;
       margin: 14px auto;
       padding: 15px 30px;
@@ -88,10 +89,12 @@
       border: none;
       cursor: pointer;
       font-family: inherit;
+      text-align: center;
     }
 
     .buttons a:hover,
-    .buttons button:hover {
+    .buttons button:hover,
+    .donate-link:hover {
       background: #7CFF00;
       box-shadow: 0 0 24px #7CFF00;
       transform: scale(1.04);
@@ -137,6 +140,13 @@
 
     .modal-content b {
       color: #7CFF00;
+    }
+
+    .donate-note {
+      text-align: center;
+      color: #dcdcdc;
+      font-size: 0.95em;
+      margin-bottom: 18px;
     }
 
     .close {
@@ -197,7 +207,8 @@
       h2 { font-size: 1em; }
 
       .buttons a,
-      .buttons button {
+      .buttons button,
+      .donate-link {
         width: 75%;
         max-width: 280px;
       }
@@ -231,7 +242,20 @@
     <a id="yt" href="https://www.youtube.com/channel/UC2Fa5Q1RkChe0jSTt6e9j-Q?sub_confirmation=1" target="_blank">🎬 YouTube</a>
     <a id="tg" href="https://t.me/+T7ZblSqZibA0Yjk6" target="_blank">💬 Telegram</a>
     <a id="ds" href="https://discord.gg/t5ryTfJ7qR" target="_blank">🧠 Discord</a>
+    <button id="donate-btn" type="button">💸 Donate</button>
     <button id="pc-btn" type="button">🖥 My PC</button>
+  </div>
+
+  <div id="donate-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-donate">×</span>
+      <h3>SUPPORT HORNET</h3>
+
+      <p class="donate-note">Спасибо за поддержку канала. Любой донат помогает делать больше контента по Rust.</p>
+
+      <a class="donate-link" href="https://www.donationalerts.com/r/xpyctukrust" target="_blank">💸 DonationAlerts</a>
+      <a class="donate-link" href="mailto:xpyctukplay@gmail.com">🅿 PayPal: xpyctukplay@gmail.com</a>
+    </div>
   </div>
 
   <div id="pc-modal" class="modal">
@@ -244,11 +268,10 @@
       <p><b>Motherboard:</b> MAG B650 TOMAHAWK WIFI</p>
       <p><b>RAM:</b> Kingston Fury Beast DDR5 6000MHz, 64GB</p>
       <p><b>Storage:</b> Samsung 980 Pro 250GB + Crucial P3 Plus 2TB + Crucial P3 Plus 1TB</p>
-      <p><b>Monitor:</b> Optix MAG274QRRF-QD 
-      + Dell U2414H</p>
+      <p><b>Monitor:</b> Optix MAG274QRRF-QD + Dell U2414H</p>
       <p><b>Mouse:</b> Logitech G Pro Superlight</p>
       <p><b>Keyboard:</b> SteelSeries Apex Pro</p>
-      <p><b>Headphones:</b> Moondrop Kato flagship blue</p>
+      <p><b>Headphones:</b> Moondrop Kato Flagship Blue</p>
       <p><b>Mic:</b> Blue Yeti X Professional</p>
     </div>
   </div>
@@ -267,6 +290,7 @@
         youtube: "YouTube",
         telegram: "Telegram",
         discord: "Discord",
+        donate: "Donate",
         pc: "My PC"
       },
       en: {
@@ -276,14 +300,20 @@
         youtube: "YouTube",
         telegram: "Telegram",
         discord: "Discord",
+        donate: "Donate",
         pc: "My PC"
       }
     };
 
     const langSelect = document.getElementById('lang-select');
+
     const pcModal = document.getElementById('pc-modal');
     const pcBtn = document.getElementById('pc-btn');
     const closePc = document.getElementById('close-pc');
+
+    const donateModal = document.getElementById('donate-modal');
+    const donateBtn = document.getElementById('donate-btn');
+    const closeDonate = document.getElementById('close-donate');
 
     function applyLanguage(lang) {
       localStorage.setItem('lang', lang);
@@ -293,6 +323,7 @@
       document.getElementById('yt').innerHTML = `🎬 ${translations[lang].youtube}`;
       document.getElementById('tg').innerHTML = `💬 ${translations[lang].telegram}`;
       document.getElementById('ds').innerHTML = `🧠 ${translations[lang].discord}`;
+      document.getElementById('donate-btn').innerHTML = `💸 ${translations[lang].donate}`;
       document.getElementById('pc-btn').innerHTML = `🖥 ${translations[lang].pc}`;
     }
 
@@ -304,18 +335,32 @@
       pcModal.style.display = 'none';
     }
 
+    function openDonate() {
+      donateModal.style.display = 'block';
+    }
+
+    function closeDonateModal() {
+      donateModal.style.display = 'none';
+    }
+
     pcBtn.addEventListener('click', openPC);
     closePc.addEventListener('click', closePC);
 
+    donateBtn.addEventListener('click', openDonate);
+    closeDonate.addEventListener('click', closeDonateModal);
+
     pcModal.addEventListener('click', function(event) {
-      if (event.target === pcModal) {
-        closePC();
-      }
+      if (event.target === pcModal) closePC();
+    });
+
+    donateModal.addEventListener('click', function(event) {
+      if (event.target === donateModal) closeDonateModal();
     });
 
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closePC();
+        closeDonateModal();
       }
     });
 
