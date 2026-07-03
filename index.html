@@ -382,7 +382,6 @@
    function playHoverSound() {
   const sound = document.getElementById('hover-sound');
   if (!sound) return;
-  sound.volume = 1.0;
   sound.currentTime = 0;
   sound.play().catch(() => {});
 }
