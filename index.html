@@ -420,10 +420,17 @@
       applyLanguage(langSelect.value);
     });
 
-    document.querySelectorAll('a:not(#logo-link), button, select, .close').forEach(element => {
-      element.addEventListener('mouseenter', playHoverSound);
-      element.addEventListener('click', playClickSound);
-    });
+    const hasHover = window.matchMedia('(hover: hover)').matches;
+
+document.querySelectorAll('a:not(#logo-link), button, select, .close').forEach(element => {
+
+    if (hasHover) {
+        element.addEventListener('mouseenter', playHoverSound);
+    }
+
+    element.addEventListener('click', playClickSound);
+
+});
 
     logoLink.addEventListener('mouseenter', playHoverSound);
 
