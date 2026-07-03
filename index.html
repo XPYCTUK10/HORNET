@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <title>HORNET — RUST Content</title>
@@ -29,7 +29,6 @@
       display: block;
       filter: brightness(0.75);
       transition: filter 1.5s ease;
-      position: relative;
     }
 
     body.loaded .banner { filter: brightness(1); }
@@ -71,11 +70,13 @@
       margin-top: -8px;
     }
 
-    .buttons a {
+    .buttons a,
+    .buttons button {
       display: block;
       margin: 14px auto;
       padding: 15px 30px;
-      width: 240px;
+      width: 300px;
+      box-sizing: border-box;
       border-radius: 12px;
       background: linear-gradient(145deg, #5fd600, #7CFF00);
       color: black;
@@ -84,9 +85,13 @@
       font-size: 1em;
       box-shadow: 0 0 14px #7CFF0088;
       transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
     }
 
-    .buttons a:hover {
+    .buttons a:hover,
+    .buttons button:hover {
       background: #7CFF00;
       box-shadow: 0 0 24px #7CFF00;
       transform: scale(1.04);
@@ -99,18 +104,21 @@
       background: rgba(0, 0, 0, 0.78);
       z-index: 99999;
       padding: 20px;
+      box-sizing: border-box;
     }
 
     .modal-content {
+      position: relative;
       background: #070707;
       border: 2px solid #7CFF00;
       box-shadow: 0 0 30px rgba(124, 255, 0, 0.75);
       border-radius: 18px;
       width: 90%;
-      max-width: 460px;
-      margin: 9vh auto;
-      padding: 26px;
+      max-width: 520px;
+      margin: 7vh auto;
+      padding: 28px;
       text-align: left;
+      box-sizing: border-box;
     }
 
     .modal-content h3 {
@@ -124,6 +132,7 @@
       margin: 10px 0;
       color: #dcdcdc;
       font-size: 0.95em;
+      line-height: 1.4;
     }
 
     .modal-content b {
@@ -131,11 +140,14 @@
     }
 
     .close {
-      float: right;
-      font-size: 30px;
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 32px;
       cursor: pointer;
       color: white;
       line-height: 1;
+      user-select: none;
     }
 
     .close:hover { color: #7CFF00; }
@@ -184,13 +196,15 @@
       h1 { font-size: 2.2em; }
       h2 { font-size: 1em; }
 
-      .buttons a {
+      .buttons a,
+      .buttons button {
         width: 75%;
         max-width: 280px;
       }
 
       .modal-content {
-        margin: 7vh auto;
+        margin: 6vh auto;
+        padding: 24px 20px;
       }
     }
   </style>
@@ -210,19 +224,19 @@
   <img src="HORNET logo.png" alt="HORNET Logo" class="logo" />
 
   <h1 id="title">HORNET</h1>
-  <h2 id="subtitle">RUST CONTENT CREATOR</h2>
-  <h5 id="subdesc">17 000+ часов в RUST</h5>
+  <h2 id="subtitle">17 000+ часов в Rust</h2>
+  <h5 id="subdesc"></h5>
 
   <div class="buttons">
     <a id="yt" href="https://www.youtube.com/channel/UC2Fa5Q1RkChe0jSTt6e9j-Q?sub_confirmation=1" target="_blank">🎬 YouTube</a>
     <a id="tg" href="https://t.me/+T7ZblSqZibA0Yjk6" target="_blank">💬 Telegram</a>
     <a id="ds" href="https://discord.gg/t5ryTfJ7qR" target="_blank">🧠 Discord</a>
-    <a id="pc-btn" href="#" onclick="openPC(); return false;">🖥 My PC</a>
+    <button id="pc-btn" type="button">🖥 My PC</button>
   </div>
 
-  <div id="pc-modal" class="modal" onclick="closePC(event)">
+  <div id="pc-modal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closePC()">×</span>
+      <span class="close" id="close-pc">×</span>
       <h3>HORNET PC SETUP</h3>
 
       <p><b>CPU:</b> Ryzen 9 7900X3D</p>
@@ -248,7 +262,7 @@
       ru: {
         title: "HORNET",
         subtitle: "17 000+ часов в Rust",
-        subdesc: " ",
+        subdesc: "",
         youtube: "YouTube",
         telegram: "Telegram",
         discord: "Discord",
@@ -257,7 +271,7 @@
       en: {
         title: "HORNET",
         subtitle: "17 000+ hours in Rust",
-        subdesc: " ",
+        subdesc: "",
         youtube: "YouTube",
         telegram: "Telegram",
         discord: "Discord",
@@ -266,6 +280,9 @@
     };
 
     const langSelect = document.getElementById('lang-select');
+    const pcModal = document.getElementById('pc-modal');
+    const pcBtn = document.getElementById('pc-btn');
+    const closePc = document.getElementById('close-pc');
 
     function applyLanguage(lang) {
       localStorage.setItem('lang', lang);
@@ -278,6 +295,29 @@
       document.getElementById('pc-btn').innerHTML = `🖥 ${translations[lang].pc}`;
     }
 
+    function openPC() {
+      pcModal.style.display = 'block';
+    }
+
+    function closePC() {
+      pcModal.style.display = 'none';
+    }
+
+    pcBtn.addEventListener('click', openPC);
+    closePc.addEventListener('click', closePC);
+
+    pcModal.addEventListener('click', function(event) {
+      if (event.target === pcModal) {
+        closePC();
+      }
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePC();
+      }
+    });
+
     langSelect.addEventListener('change', () => {
       applyLanguage(langSelect.value);
     });
@@ -288,12 +328,14 @@
 
     function playClickSound() {
       const sound = document.getElementById('click-sound');
+      if (!sound) return;
       sound.currentTime = 0;
       sound.play().catch(() => {});
     }
 
     function playHoverSound() {
       const sound = document.getElementById('hover-sound');
+      if (!sound) return;
       sound.currentTime = 0;
       sound.play().catch(() => {});
     }
@@ -302,16 +344,6 @@
       element.addEventListener('mouseenter', playHoverSound);
       element.addEventListener('click', playClickSound);
     });
-
-    function openPC() {
-      document.getElementById('pc-modal').style.display = 'block';
-    }
-
-    function closePC(event) {
-      if (!event || event.target.id === 'pc-modal' || event.target.classList.contains('close')) {
-        document.getElementById('pc-modal').style.display = 'none';
-      }
-    }
 
     window.addEventListener("load", () => {
       setTimeout(() => {
