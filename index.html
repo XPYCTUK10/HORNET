@@ -283,7 +283,8 @@
 
   <audio id="click-sound" src="typing.mp3" preload="auto"></audio>
   <audio id="hover-sound" src="hover.wav" preload="auto"></audio>
-
+  <audio id="hornet-sound" src="Hornet sound.mp3" preload="auto"></audio>
+  
   <script>
     const translations = {
   ru: {
@@ -397,11 +398,27 @@
   sound.currentTime = 0;
   sound.play().catch(() => {});
 }
+    function playHornetSound() {
+    const sound = document.getElementById('hornet-sound');
+    if (!sound) return;
 
-    document.querySelectorAll('a, button, select, .logo, .close').forEach(element => {
-      element.addEventListener('mouseenter', playHoverSound);
-      element.addEventListener('click', playClickSound);
-    });
+    sound.currentTime = 0;
+    sound.volume = 0.45; // потом можно подобрать 0.3–0.6
+    sound.play().catch(() => {});
+}
+
+    document.querySelectorAll('a:not(#logo-link), button, select, .close').forEach(element => {
+    element.addEventListener('mouseenter', playHoverSound);
+    element.addEventListener('click', playClickSound);
+});
+
+const logoLink = document.getElementById('logo-link');
+
+logoLink.addEventListener('mouseenter', playHoverSound);
+
+logoLink.addEventListener('click', () => {
+    playHornetSound();
+});
 
     window.addEventListener("load", () => {
       setTimeout(() => {
