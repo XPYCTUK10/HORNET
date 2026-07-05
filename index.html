@@ -257,6 +257,7 @@
 
   <div class="buttons">
     <a id="yt" href="https://www.youtube.com/channel/UC2Fa5Q1RkChe0jSTt6e9j-Q?sub_confirmation=1" target="_blank">🎬 YouTube</a>
+    <a id="tw" href="https://www.twitch.tv/hornet_rust" target="_blank">📺 Twitch</a>
     <a id="tg" href="https://t.me/+T7ZblSqZibA0Yjk6" target="_blank">💬 Telegram</a>
     <a id="ds" href="https://discord.gg/t5ryTfJ7qR" target="_blank">🧠 Discord</a>
     <button id="donate-btn" type="button">💸 Donate</button>
@@ -307,6 +308,7 @@
         subtitle: "17 000+ часов в Rust",
         subdesc: "",
         youtube: "YouTube",
+        twitch: "Twitch",
         telegram: "Telegram",
         discord: "Discord",
         donate: "Поддержать",
@@ -320,6 +322,7 @@
         subtitle: "17 000+ hours in Rust",
         subdesc: "",
         youtube: "YouTube",
+        twitch: "Твич",
         telegram: "Telegram",
         discord: "Discord",
         donate: "Support",
@@ -348,6 +351,7 @@
       document.getElementById('subtitle').innerText = translations[lang].subtitle;
       document.getElementById('subdesc').innerText = translations[lang].subdesc;
       document.getElementById('yt').innerHTML = `🎬 ${translations[lang].youtube}`;
+      document.getElementById('tw').innerHTML = `📺 ${translations[lang].twitch}`;
       document.getElementById('tg').innerHTML = `💬 ${translations[lang].telegram}`;
       document.getElementById('ds').innerHTML = `🧠 ${translations[lang].discord}`;
       document.getElementById('donate-btn').innerHTML = `💸 ${translations[lang].donate}`;
